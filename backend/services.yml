@@ -1,0 +1,35 @@
+services:
+  nfconsumer:
+    container_name: nfc-backend 
+    hostname: nfc-backend
+    restart: always
+    image: nfc-backend:latest
+    ports:
+      - 8081:8081
+    environment:
+      SPRING_DATASOURCE_URL: ${SPRING_DATASOURCE_URL}
+      SPRING_DATASOURCE_USERNAME: ${SPRING_DATASOURCE_USERNAME}
+      SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD}
+    networks:
+      - inner-net
+
+  psql-server:
+    container_name: psql-server 
+    hostname: psql-server
+    restart: always
+    image: postgres:12
+    environment:
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    ports:
+      - 5432:5432
+    networks:
+      - inner-net
+
+
+networks:
+  inner-net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.255.30.0/29
