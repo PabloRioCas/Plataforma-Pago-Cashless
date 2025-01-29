@@ -28,7 +28,7 @@ public class SecurityConfig {
             request
             .requestMatchers("/users/**")
             .permitAll()
-            .requestMatchers("/pagos/**")
+            .requestMatchers("/payments/**")
             .authenticated()
         ).csrf(csrf -> csrf.disable());
         return http.build();
