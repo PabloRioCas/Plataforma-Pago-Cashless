@@ -1,54 +1,76 @@
 package com.proyectofinal.nfconsumer.config;
 
+import com.proyectofinal.nfconsumer.auth.repository.Token;
+import com.proyectofinal.nfconsumer.auth.repository.TokenRepository;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpHeaders;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-//Avisa a spring de que esto es una configuración y habilita el web security
+import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
+
 @Configuration
 @EnableWebSecurity
+@RequiredArgsConstructor
+@EnableMethodSecurity
 public class SecurityConfig {
-    
-    // Identificamos con un Bean para que spring pueda usar esta clase.
-    @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
 
-        //TO DO
-        // Ahora mismo acepta todas las peticiones sin autenticación a los endpoints que coincidan con '/**'
-        // Además, deshabilitamos por ahora el cross site request forgery
-        http.authorizeHttpRequests(request ->
-            request
-            .requestMatchers("/users/**")
-            .permitAll()
-            .requestMatchers("/payments/**")
-            .authenticated()
-        ).csrf(csrf -> csrf.disable());
+    private final JwtAuthenticationFilter jwtAuthFilter;
+    private final AuthenticationProvider authenticationProvider;
+    private final TokenRepository tokenRepository;
+
+    @Bean
+    public SecurityFilterChain securityFilterChain(final HttpSecurity http) throws Exception {
+        http
+                .csrf(AbstractHttpConfigurer::disable)
+                .authorizeHttpRequests(req ->
+                        req.requestMatchers("/auth/**")
+                                .permitAll()
+                                .anyRequest()
+                                .authenticated()
+                )
+                .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))
+                .authenticationProvider(authenticationProvider)
+                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
+                .logout(logout ->
+                        logout.logoutUrl("/auth/logout")
+                                .addLogoutHandler(this::logout)
+                                .logoutSuccessHandler((request, response, authentication) -> SecurityContextHolder.clearContext())
+                )
+        ;
+
         return http.build();
     }
 
+    private void logout(
+            final HttpServletRequest request, final HttpServletResponse response,
+            final Authentication authentication
+    ) {
 
-    //Bean para el usuario con vista.
-    @Bean
-    public UserDetailsService testUser(PasswordEncoder passwordEncoder){
-        User.UserBuilder user = User.builder();
-        UserDetails developer = user.username("developer")
-            .password(passwordEncoder.encode("1234"))
-            .roles()
-            .build();
-        return new InMemoryUserDetailsManager(developer);
-    }
+        final String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+            return;
+        }
 
-    //Encoder para el password del usuario con vista.
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
+        final String jwt = authHeader.substring(7);
+        final Token storedToken = tokenRepository.findByToken(jwt)
+                .orElse(null);
+        if (storedToken != null) {
+            storedToken.setIsExpired(true);
+            storedToken.setIsRevoked(true);
+            tokenRepository.save(storedToken);
+            SecurityContextHolder.clearContext();
+        }
     }
 }

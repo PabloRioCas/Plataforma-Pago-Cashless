@@ -1,7 +1,8 @@
-CREATE TABLE usuario (
+CREATE TABLE users (
     id BIGSERIAL PRIMARY KEY,
+    password VARCHAR(255) NOT NULL,
     name VARCHAR(255) NOT NULL,
     lastname VARCHAR(255) NOT NULL,
-    mail VARCHAR(255) NOT NULL UNIQUE,
-    creation_date TIMESTAMP NOT NULL
+    email VARCHAR(255) NOT NULL UNIQUE,
+    creation_date TIMESTAMP NOT NULL DEFAULT NOW()
 );
