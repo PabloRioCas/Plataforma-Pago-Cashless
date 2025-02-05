@@ -1,4 +1,4 @@
-package com.proyectofinal.nfconsumer.models;
+package com.proyectofinal.nfconsumer.payment.repository;
 
 import java.io.Serializable;
 
