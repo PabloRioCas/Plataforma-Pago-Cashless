@@ -24,12 +24,15 @@ public class AuthController {
         return ResponseEntity.ok(response);
     }
 
+    @Operation(summary = "Logear al usuario, obtenemos 2 tokens", security = @SecurityRequirement(name = "None"))
     @PostMapping("/login")
     public ResponseEntity<TokenResponse> authenticate(@RequestBody AuthRequest request) {
         final TokenResponse response = service.authenticate(request);
         return ResponseEntity.ok(response);
     }
 
+    
+    @Operation(summary = "Admite un Token, recibe otro nuevo y el refresh-token.", security = @SecurityRequirement(name = "None"))
     @PostMapping("/refresh-token")
     public TokenResponse refreshToken(
             @RequestHeader(HttpHeaders.AUTHORIZATION) final String authentication
