@@ -1,5 +1,7 @@
 package com.proyectofinal.nfconsumer.auth.repository;
 
+import java.io.Serializable;
+
 import com.proyectofinal.nfconsumer.user.repository.User;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -23,7 +25,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Entity
 @Table(name = "tokens")
-public class Token {
+public class Token implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
