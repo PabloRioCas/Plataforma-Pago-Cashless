@@ -1,10 +1,12 @@
 import os
 import re
+import subprocess
 from collections import defaultdict
 
 PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../.."))
 INPUT_DIR = "."
 OUTPUT_FILE = os.path.join(PROJECT_ROOT, "resources/diagrams/diagrama-clases.puml")
+OUTPUT_IMAGE = os.path.join(PROJECT_ROOT, "resources/diagrams/diagrama-clases.png")
 
 def parse_java_class(file_path, file_content):
     class_match = re.search(r'(class|record|interface)\s+(\w+)', file_content)
@@ -94,6 +96,13 @@ def generate_puml(classes):
     lines.append("@enduml")
     return "\n".join(lines)
 
+def render_image(input_file, output_file):
+    try:
+        subprocess.run(["plantuml", "-tpng", "-o", os.path.dirname(output_file), input_file], check=True)
+        print(f"Imagen generada: {output_file}")
+    except Exception as e:
+        print(f"Error al generar imagen PNG: {e}")
+
 def main():
     java_classes = []
     total_classes = 0
@@ -125,7 +134,9 @@ def main():
         f.write(puml_output)
 
     print(f"Archivo generado: {OUTPUT_FILE}")
-    print(f"Clases: {total_classes}, Interfaces: {total_interfaces}, Relaciones: {total_relations}")
+    print(f"Clases: {total_classes}, Interfaces: {total_interfaces}, Métodos main: {total_mains}, Relaciones: {total_relations}")
+
+    render_image(OUTPUT_FILE, OUTPUT_IMAGE)
 
 if __name__ == "__main__":
     main()
