@@ -46,4 +46,5 @@ public class User {
 
   @OneToMany(mappedBy = "user")
   private List<Token> tokens;
+
 }
