@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.proyectofinal.nfconsumer.balance.repository.Balance;
 import com.proyectofinal.nfconsumer.balance.repository.BalanceRepository;
+import com.proyectofinal.nfconsumer.exceptions.BraceletNotAssignedException;
 import com.proyectofinal.nfconsumer.user.repository.User;
 import com.proyectofinal.nfconsumer.user.repository.UserRepository;
 
@@ -22,10 +23,10 @@ public class BalanceService {
 
     public BigDecimal getBalanceByEmail(String email) {
         User user = userRepository.findByEmail(email)
-            .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+            .orElseThrow(() -> new BraceletNotAssignedException("OOPS! Parece que el usuario no existe"));
 
         return balanceRepository.findByUser(user)
             .map(Balance::getActualBalance)
-            .orElseThrow(() -> new RuntimeException("Pulsera no asignada al usuario"));
+            .orElseThrow(() -> new BraceletNotAssignedException("Este usuario aun no tiene una pulsera asignada, por lo que no puede tener balance"));
     }
 }
