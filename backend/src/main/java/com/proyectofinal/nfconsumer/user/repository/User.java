@@ -41,6 +41,9 @@ public class User {
   @Column(nullable = false)
   private String password;
 
+  @Column(nullable = false)
+  private String phone;
+
   @OneToMany(mappedBy = "user")
   private List<Token> tokens;
 }
