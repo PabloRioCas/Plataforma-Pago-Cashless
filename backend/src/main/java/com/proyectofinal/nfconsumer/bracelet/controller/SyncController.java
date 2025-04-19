@@ -1,7 +1,5 @@
 package com.proyectofinal.nfconsumer.bracelet.controller;
 
-import java.util.Map;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.PostMapping;

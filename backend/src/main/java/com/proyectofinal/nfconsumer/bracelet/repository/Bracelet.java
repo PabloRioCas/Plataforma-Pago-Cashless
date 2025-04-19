@@ -1,7 +1,6 @@
 package com.proyectofinal.nfconsumer.bracelet.repository;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 import com.proyectofinal.nfconsumer.user.repository.User;
 
