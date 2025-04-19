@@ -16,5 +16,17 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
     }
 
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<Map<String, String>> handleUserNotFoundException(UserNotFoundException ex) {
+        Map<String, String> response = Map.of("error", ex.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+    }
+
+    @ExceptionHandler(BraceletAlredyAssignedException.class)
+    public ResponseEntity<Map<String, String>> handleBraceletAlredyAssignedException(BraceletAlredyAssignedException ex) {
+        Map<String, String> response = Map.of("error", ex.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+    }
+
     //Si añadimos mas controlladores de las excepciones las lanzamos a continuación
 }

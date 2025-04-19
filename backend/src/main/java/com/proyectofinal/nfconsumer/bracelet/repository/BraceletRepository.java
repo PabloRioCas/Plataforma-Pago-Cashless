@@ -11,5 +11,7 @@ import com.proyectofinal.nfconsumer.user.repository.User;
 @Repository
 public interface BraceletRepository extends JpaRepository<Bracelet, UUID> {
     Optional<Bracelet> findByUser(User user);
+
+    Optional<Bracelet> findByNfcuid(String nfcuid);
 }
 

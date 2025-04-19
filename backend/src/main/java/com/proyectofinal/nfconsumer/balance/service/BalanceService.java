@@ -1,6 +1,7 @@
 package com.proyectofinal.nfconsumer.balance.service;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 import org.springframework.stereotype.Service;
 
@@ -28,5 +29,16 @@ public class BalanceService {
         return balanceRepository.findByUser(user)
             .map(Balance::getActualBalance)
             .orElseThrow(() -> new BraceletNotAssignedException("Este usuario aun no tiene una pulsera asignada, por lo que no puede tener balance"));
+    }
+
+    public void firstAssignBalance(User user){
+        balanceRepository.findByUser(user).orElseGet(() -> {
+            Balance balance = new Balance();
+            balance.setUser(user);
+            balance.setActualBalance(BigDecimal.ZERO);
+            balance.setUpdatedIn(LocalDateTime.now());
+            return balanceRepository.save(balance);
+        });
+
     }
 }
