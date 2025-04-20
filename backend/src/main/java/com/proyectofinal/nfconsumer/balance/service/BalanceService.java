@@ -17,7 +17,7 @@ public class BalanceService {
     private final BalanceRepository balanceRepository;
     private final UserRepository userRepository;
 
-    public BalanceService(BalanceRepository balanceRepository, UserRepository userRepository) {
+    private BalanceService(BalanceRepository balanceRepository, UserRepository userRepository) {
         this.balanceRepository = balanceRepository;
         this.userRepository = userRepository;
     }
