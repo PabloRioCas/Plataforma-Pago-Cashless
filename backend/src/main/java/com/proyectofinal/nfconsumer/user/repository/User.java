@@ -1,5 +1,4 @@
 package com.proyectofinal.nfconsumer.user.repository;
-import java.time.LocalDateTime;
 import java.util.List;
 
 import com.proyectofinal.nfconsumer.auth.repository.Token;
@@ -28,28 +27,20 @@ public class User {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "id")
   private Integer id;
 
-  @Column(name = "name", nullable = false)
+  @Column(nullable = false)
   private String name;
 
-  @Column(name = "lastname", nullable = false)
+  @Column(nullable = false)
   private String lastname;
 
-  @Column(name = "email", nullable = false, unique = true)
+  @Column(nullable = false, unique = true)
   private String email;
 
-  @Column(name = "password", nullable = false)
+  @Column(nullable = false)
   private String password;
-
-  @Column(name = "phone", nullable = false)
-  private String phone;
 
   @OneToMany(mappedBy = "user")
   private List<Token> tokens;
-
-  @Column(name = "creation_date")
-  private LocalDateTime creationDate;
-
 }
