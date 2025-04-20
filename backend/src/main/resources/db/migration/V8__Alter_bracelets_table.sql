@@ -1,0 +1,2 @@
+ALTER TABLE bracelets
+ALTER COLUMN state SET DEFAULT 'FREE';

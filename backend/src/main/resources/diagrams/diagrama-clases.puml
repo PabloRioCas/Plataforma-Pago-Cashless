@@ -1,0 +1,111 @@
+@startuml
+package default {
+  class NfconsumerApplication <<Main>> {
+  }
+}
+package auth.controller {
+  class AuthController <<RestController>> {
+    + register() : ResponseEntity<TokenResponse>
+    + authenticate() : ResponseEntity<TokenResponse>
+    + refreshToken() : TokenResponse
+  }
+  class AuthRequest {
+    + AuthRequest() : record
+  }
+  class RegisterRequest {
+    + RegisterRequest() : record
+  }
+  class TokenResponse {
+    + TokenResponse() : record
+  }
+}
+package auth.repository {
+  class Token <<Entity>> {
+    - id : Integer
+    - token : String
+    - isRevoked : Boolean
+    - isExpired : Boolean
+    - user : User
+  }
+  interface TokenRepository {
+  }
+}
+package auth.service {
+  class AuthService <<Service>> {
+    + register() : TokenResponse
+    + authenticate() : TokenResponse
+    - saveUserToken() : void
+    - revokeAllUserTokens() : void
+    + refreshToken() : TokenResponse
+  }
+  class JwtService <<Service>> {
+    - secretKey : String
+    - jwtExpiration : long
+    - refreshExpiration : long
+    + extractUsername() : String
+    + generateToken() : String
+    + generateRefreshToken() : String
+    - buildToken() : String
+    + isTokenValid() : boolean
+    - isTokenExpired() : boolean
+    - extractExpiration() : Date
+    - getSignInKey() : SecretKey
+  }
+}
+package config {
+  class AppConfig {
+    + userDetailsService() : UserDetailsService
+    + authenticationProvider() : AuthenticationProvider
+    + authenticationManager() : AuthenticationManager
+    + passwordEncoder() : PasswordEncoder
+  }
+  class JwtAuthenticationFilter <<Component>> {
+    # doFilterInternal() : void
+  }
+  class OpenApiConfig {
+    + customOpenAPI() : OpenAPI
+  }
+  class SecurityConfig {
+    + securityFilterChain() : SecurityFilterChain
+    - logout() : void
+  }
+}
+package payment.controller {
+  class PaymentController <<RestController>> {
+    + getAllPayments() : String
+  }
+}
+package payment.repository {
+  class PaymentModel <<Entity>> {
+    - id : long
+  }
+}
+package user.controller {
+  class UserController <<RestController>> {
+    + changePassword() : List<UserResponse>
+  }
+}
+package user.repository {
+  class User <<Entity>> {
+    - id : Integer
+    - name : String
+    - lastname : String
+    - email : String
+    - password : String
+    - tokens : List<Token>
+  }
+  interface UserRepository {
+  }
+  class UserResponse {
+    + UserResponse() : record
+  }
+}
+AuthController ..> TokenResponse
+AuthService ..> TokenResponse
+JpaRepository <|-- TokenRepository
+JpaRepository <|-- UserRepository
+OncePerRequestFilter <|-- JwtAuthenticationFilter
+Serializable <|.. PaymentModel
+Serializable <|.. Token
+Token --> User
+@enduml
