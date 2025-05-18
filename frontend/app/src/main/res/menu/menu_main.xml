@@ -1,0 +1,40 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.example.pulsepay12.MainActivity">
+
+
+        <item android:title="Dashboard"
+            android:id="@+id/MenuAccionesDashboard">
+            <menu>
+                <item
+                    android:id="@+id/MenuInicio"
+                    android:orderInCategory="100"
+                    android:title="@string/action_Dashboard"
+                    app:showAsAction="never" />
+                <item
+                    android:id="@+id/MenuRecargar"
+                    android:orderInCategory="100"
+                    android:title="@string/action_recharge"
+                    app:showAsAction="never" />
+                <item
+                    android:id="@+id/MenuMovimientos"
+                    android:orderInCategory="100"
+                    android:title="@string/action_Movements"
+                    app:showAsAction="never" />
+                <item
+                    android:id="@+id/MenuAjustes"
+                    android:orderInCategory="100"
+                    android:title="@string/action_settings"
+                    app:showAsAction="never" />
+
+            </menu>
+
+        </item>
+
+    <item
+        android:id="@+id/MenuCerrarSesion"
+        android:orderInCategory="100"
+        android:title="@string/exitApp"
+        app:showAsAction="never" />
+</menu>
