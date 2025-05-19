@@ -35,8 +35,9 @@ class MovementsAdapter(var transacionlist: ArrayList<TransactionJSON>, var conte
     }
 
     override fun getItemViewType(position: Int): Int {
-        val importe = transacionlist[position].qty
-        return if (importe?.toInt()!! <0) TYPE_NEGATIVE else TYPE_POSITIVE
+        val tipo = transacionlist[position].type
+        return if (tipo.equals("RECHARGE")) TYPE_POSITIVE else TYPE_NEGATIVE
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyHolder {

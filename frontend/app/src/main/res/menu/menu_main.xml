@@ -18,6 +18,11 @@
                     android:title="@string/action_recharge"
                     app:showAsAction="never" />
                 <item
+                    android:id="@+id/MenuPagar"
+                    android:orderInCategory="100"
+                    android:title="Pagar"
+                    app:showAsAction="never" />
+                <item
                     android:id="@+id/MenuMovimientos"
                     android:orderInCategory="100"
                     android:title="@string/action_Movements"

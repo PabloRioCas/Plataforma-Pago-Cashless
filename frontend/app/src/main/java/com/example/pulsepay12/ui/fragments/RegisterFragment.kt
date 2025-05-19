@@ -43,7 +43,7 @@ class RegisterFragment: Fragment() {
                 binding.etPass.text.toString()
             ).addOnCompleteListener{
                 if(it.isSuccessful){
-                    findNavController().navigate(R.id.action_registerFragment_to_dashboardAdminFragment)
+                    findNavController().navigate(R.id.action_registerFragment_to_loginFragment)
                 }else{
                     Snackbar.make(binding.root,"Error en el registro",Toast.LENGTH_SHORT).show()
                 }

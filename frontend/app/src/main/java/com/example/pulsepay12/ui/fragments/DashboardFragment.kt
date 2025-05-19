@@ -56,6 +56,7 @@ class DashboardFragment: Fragment(), OnClickListener {
         binding.btnMovimientos.setOnClickListener(this)
         binding.btnRecarga.setOnClickListener(this)
         binding.btnAjustes.setOnClickListener(this)
+        binding.btnPagar.setOnClickListener(this)
         (requireActivity() as AppCompatActivity).supportActionBar?.title = "Inicio"
         (activity as? MainActivity)?.showFab(true)
         val qrScanner = registerForActivityResult(
@@ -88,6 +89,9 @@ class DashboardFragment: Fragment(), OnClickListener {
         when(v!!.id){
             binding.btnRecarga.id->{
                 findNavController().navigate(R.id.action_dashboardFragment_to_rechargeFragment)
+            }
+            binding.btnPagar.id->{
+                findNavController().navigate(R.id.action_dashboardFragment_to_paymentFragment)
             }
             binding.btnMovimientos.id->{
               findNavController().navigate(R.id.action_dashboardFragment_to_movementsFragment)

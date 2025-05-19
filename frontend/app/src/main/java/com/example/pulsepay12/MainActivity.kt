@@ -57,6 +57,7 @@ class MainActivity : AppCompatActivity(), MovementsAdapter.OnTransactionListener
        when (item.itemId) {
             R.id.MenuInicio-> {navController.navigate(R.id.action_global_dashboardFragment)}
             R.id.MenuRecargar-> {navController.navigate(R.id.action_global_rechargeFragment)}
+           R.id.MenuPagar-> {navController.navigate(R.id.action_global_PaymentFragment)}
             R.id.MenuMovimientos-> {navController.navigate(R.id.action_global_movementFragment)}
             R.id.MenuAjustes-> {navController.navigate(R.id.action_global_settingsFragment)}
             R.id.MenuCerrarSesion-> {finish()}

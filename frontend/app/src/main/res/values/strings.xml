@@ -22,7 +22,14 @@
 <!--    <string name=""></string>-->
 <!--    <string name=""></string>-->
 <!--    <string name=""></string>-->
-
+    <string-array name="gastos_festival">
+        <item>Agua</item>
+        <item>Cerveza</item>
+        <item>Cubata</item>
+        <item>Comida</item>
+        <item>Merchandising</item>
+        <item>Taquilla/Guardarropa</item>
+    </string-array>
 
 
 
