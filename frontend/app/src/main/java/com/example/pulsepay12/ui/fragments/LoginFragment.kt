@@ -79,7 +79,6 @@ class LoginFragment: Fragment(), CompoundButton.OnCheckedChangeListener {
                     val token = response.getString("access_token")
                     val prefs = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
                     prefs.edit().putString("access_token", token).apply()
-                    findNavController().navigate(R.id.action_loginFragment_to_dashboardFragment)
                         if (!binding.checkRecordarPass.isChecked) {
                             binding.etCorreo.text?.clear()
                             binding.etPass.text?.clear()
