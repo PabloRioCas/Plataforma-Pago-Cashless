@@ -51,8 +51,8 @@ class SettingsFragment: Fragment(), OnCheckedChangeListener, OnClickListener{
         if (jwt!=null){
             userJSON = decodeJWT(jwt)
             binding.etModificarNombre.hint = userJSON.name
-            binding.etModificarApellidos.hint = userJSON.lastName
-            binding.etModificarCorreo.hint = userJSON.mail
+            binding.etModificarApellidos.hint = userJSON.lastname
+            binding.etModificarCorreo.hint = userJSON.email
             binding.etModificarTelefono.hint = userJSON.phone
         }else
         binding.checkTerceros.setOnCheckedChangeListener(this)
@@ -116,8 +116,8 @@ class SettingsFragment: Fragment(), OnCheckedChangeListener, OnClickListener{
                     val telefonoNuevo = binding.etModificarTelefono.text.toString()
 
                     val modificado = nombreNuevo != userJSON.name ||
-                            apellidosNuevo != userJSON.lastName ||
-                            emailNuevo != userJSON.mail ||
+                            apellidosNuevo != userJSON.lastname ||
+                            emailNuevo != userJSON.email ||
                             telefonoNuevo != userJSON.phone
                     if (modificado) {
                              actualizarUsuario(nombreNuevo, apellidosNuevo, emailNuevo,telefonoNuevo)

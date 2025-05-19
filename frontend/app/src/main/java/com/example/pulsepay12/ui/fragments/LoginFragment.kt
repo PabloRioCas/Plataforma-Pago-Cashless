@@ -53,7 +53,7 @@ class LoginFragment: Fragment(), CompoundButton.OnCheckedChangeListener {
     override fun onStart() {
         super.onStart()
         binding.botonLogueo.setOnClickListener{
-            findNavController().navigate(R.id.action_loginFragment_to_dashboardFragment)
+
             if (binding.etCorreo.text.toString().isEmpty() || binding.etCorreo.text.toString().isEmpty()) {
                 Snackbar.make(binding.root, "Completa todos los campos", Snackbar.LENGTH_SHORT).show()
                 return@setOnClickListener
@@ -79,6 +79,7 @@ class LoginFragment: Fragment(), CompoundButton.OnCheckedChangeListener {
                     val token = response.getString("access_token")
                     val prefs = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
                     prefs.edit().putString("access_token", token).apply()
+                    findNavController().navigate(R.id.action_loginFragment_to_dashboardFragment)
                         if (!binding.checkRecordarPass.isChecked) {
                             binding.etCorreo.text?.clear()
                             binding.etPass.text?.clear()
@@ -93,7 +94,7 @@ class LoginFragment: Fragment(), CompoundButton.OnCheckedChangeListener {
                     binding.botonLogueo.isEnabled = true
                     binding.progressBar.visibility = View.GONE
                     Snackbar.make(binding.root, "Usuario o contraseña incorrecta", Snackbar.LENGTH_SHORT)
-                        .setAction("¿Quieres registrarte?"){findNavController().navigate(R.id.action_loginFragment_to_registerFragment)}
+                        //.setAction("¿Quieres registrarte?"){findNavController().navigate(R.id.action_loginFragment_to_registerFragment)}
                 }
                 if(error.networkResponse == null){
                     Snackbar.make(binding.root, "Sin conexion a internet", Snackbar.LENGTH_SHORT).show()
