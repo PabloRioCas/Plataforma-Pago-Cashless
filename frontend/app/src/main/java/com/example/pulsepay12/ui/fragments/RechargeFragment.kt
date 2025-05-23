@@ -18,6 +18,7 @@ import com.example.pulsepay12.databinding.FragmentLoginBinding
 import com.example.pulsepay12.databinding.FragmentRechargeBinding
 import com.example.pulsepay12.databinding.FragmentRegisterBinding
 import com.example.pulsepay12.service.AuthUtils
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import org.json.JSONObject
 
@@ -73,6 +74,10 @@ class RechargeFragment: Fragment(), OnClickListener {
                 }
             }
         }
+    }
+    override fun onResume() {
+        super.onResume()
+        requireActivity().findViewById<FloatingActionButton>(R.id.fab).hide()
     }
 
     fun recargarSaldo(cantidad: String) {

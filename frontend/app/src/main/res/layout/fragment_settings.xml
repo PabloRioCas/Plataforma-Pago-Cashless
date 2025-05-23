@@ -10,7 +10,8 @@
         android:id="@+id/linearLayout5"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_margin="40dp"
+        android:layout_marginTop="0dp"
+        android:layout_margin="10dp"
         android:orientation="vertical"
         android:padding="24dp"
         app:layout_constraintBottom_toTopOf="@+id/iVLogoPulsePay"
@@ -116,7 +117,8 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etModificarCorreo"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:inputType="textEmailAddress"/>
             </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
 
@@ -147,7 +149,8 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etModificarTelefono"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:inputType="phone"/>
             </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
 
@@ -258,23 +261,23 @@
         </LinearLayout>
 
 
-        <TextView
-            android:id="@+id/tvPulserasAsociadas"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="Pulseras Registradas"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            tools:layout_editor_absoluteX="16dp"
-            tools:layout_editor_absoluteY="172dp" />
+<!--        <TextView-->
+<!--            android:id="@+id/tvPulserasAsociadas"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginTop="20dp"-->
+<!--            android:text="Pulseras Registradas"-->
+<!--            android:textSize="20sp"-->
+<!--            android:textStyle="bold"-->
+<!--            tools:layout_editor_absoluteX="16dp"-->
+<!--            tools:layout_editor_absoluteY="172dp" />-->
 
     </LinearLayout>
 
     <ImageView
         android:id="@+id/iVLogoPulsePay"
         android:layout_width="match_parent"
-        android:layout_height="81dp"
+        android:layout_height="50dp"
         android:layout_marginBottom="20dp"
         android:src="@drawable/logo_pulsepay_horizontal"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout6"

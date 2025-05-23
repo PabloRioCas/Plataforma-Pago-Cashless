@@ -24,6 +24,7 @@ import com.example.pulsepay12.databinding.FragmentDashboardBinding
 import com.example.pulsepay12.databinding.FragmentLoginBinding
 import com.example.pulsepay12.model.User
 import com.example.pulsepay12.service.AuthUtils
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.zxing.integration.android.IntentIntegrator
 import com.journeyapps.barcodescanner.ScanContract
 import com.journeyapps.barcodescanner.ScanIntentResult
@@ -77,6 +78,10 @@ class DashboardFragment: Fragment(), OnClickListener {
         }
         requestBalance()
         return binding.root
+    }
+    override fun onResume() {
+        super.onResume()
+        requireActivity().findViewById<FloatingActionButton>(R.id.fab).show()
     }
 
     override fun onStart() {

@@ -29,7 +29,8 @@
         android:layout_marginTop="100dp"
         android:layout_marginEnd="@dimen/fab_margin"
         android:layout_marginBottom="16dp"
-        app:backgroundTint="@android:color/transparent"
-        android:src="@drawable/qr_scanner2"/>
+        android:foregroundGravity="center"
+        android:src="@drawable/qr_code_scanner_40dp_0000f5_fill0_wght400_grad0_opsz40"
+        app:backgroundTint="@color/white" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -2,6 +2,8 @@ package com.example.pulsepay12.ui.fragments
 
 import android.content.Context
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.OnClickListener
@@ -26,6 +28,7 @@ import com.example.pulsepay12.model.UserJSON
 import com.example.pulsepay12.service.AuthUtils
 import com.example.pulsepay12.service.RetrofitClient.instance
 import com.example.pulsepay12.service.UpdateUserRequest
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
 import kotlinx.coroutines.launch
@@ -51,15 +54,31 @@ class SettingsFragment: Fragment(), OnCheckedChangeListener, OnClickListener{
         if (jwt!=null){
             userJSON = decodeJWT(jwt)
             binding.etModificarNombre.hint = userJSON.name
-            binding.etModificarApellidos.hint = userJSON.lastname
-            binding.etModificarCorreo.hint = userJSON.email
+            binding.etModificarApellidos.hint = userJSON.lastName
+            binding.etModificarCorreo.hint = userJSON.mail
             binding.etModificarTelefono.hint = userJSON.phone
         }else
         binding.checkTerceros.setOnCheckedChangeListener(this)
         binding.checkNotificaciones.setOnCheckedChangeListener(this)
         binding.checkUbicacion.setOnCheckedChangeListener(this)
         binding.btnCancelar.setOnClickListener(this)
+        binding.btnGuardar.isEnabled =false
 
+        val watcher = object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                binding.btnGuardar.isEnabled =
+                    binding.etModificarNombre.text.toString().isNotEmpty() &&
+                    binding.etModificarApellidos.text.toString().isNotEmpty() &&
+                    binding.etModificarCorreo.text.toString().isNotEmpty() &&
+                    binding.etModificarTelefono.text.toString().isNotEmpty()
+            }
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+        }
+        binding.etModificarNombre.addTextChangedListener(watcher)
+        binding.etModificarApellidos.addTextChangedListener(watcher)
+        binding.etModificarCorreo.addTextChangedListener(watcher)
+        binding.etModificarTelefono.addTextChangedListener(watcher)
         binding.btnGuardar.isEnabled =false
         if(!binding.etModificarNombre.text.isNullOrEmpty() &&
             !binding.etModificarApellidos.text.isNullOrEmpty() &&
@@ -72,11 +91,12 @@ class SettingsFragment: Fragment(), OnCheckedChangeListener, OnClickListener{
         return binding.root
     }
 
+    override fun onResume() {
+        super.onResume()
+        requireActivity().findViewById<FloatingActionButton>(R.id.fab).hide()
+    }
     override fun onStart() {
         super.onStart()
-//        binding.btnRegistrar.setOnClickListener{
-//            findNavController().navigate(R.id.action_registerFragment_to_dashboardFragment)
-//        }
     }
 
     override fun onCheckedChanged(buttonView: CompoundButton?, isChecked: Boolean) {
@@ -116,8 +136,8 @@ class SettingsFragment: Fragment(), OnCheckedChangeListener, OnClickListener{
                     val telefonoNuevo = binding.etModificarTelefono.text.toString()
 
                     val modificado = nombreNuevo != userJSON.name ||
-                            apellidosNuevo != userJSON.lastname ||
-                            emailNuevo != userJSON.email ||
+                            apellidosNuevo != userJSON.lastName ||
+                            emailNuevo != userJSON.mail ||
                             telefonoNuevo != userJSON.phone
                     if (modificado) {
                              actualizarUsuario(nombreNuevo, apellidosNuevo, emailNuevo,telefonoNuevo)

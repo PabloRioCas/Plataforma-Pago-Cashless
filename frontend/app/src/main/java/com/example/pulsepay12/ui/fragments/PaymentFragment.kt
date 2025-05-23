@@ -19,6 +19,7 @@ import com.example.pulsepay12.databinding.FragmentPaymentBinding
 import com.example.pulsepay12.databinding.FragmentRechargeBinding
 import com.example.pulsepay12.databinding.FragmentRegisterBinding
 import com.example.pulsepay12.service.AuthUtils
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import org.json.JSONObject
 
@@ -42,6 +43,10 @@ class PaymentFragment: Fragment(), OnClickListener {
         binding.btnPagar.setOnClickListener(this)
         (requireActivity() as AppCompatActivity).supportActionBar?.title = "Pagar consumición"
         return binding.root
+    }
+    override fun onResume() {
+        super.onResume()
+        requireActivity().findViewById<FloatingActionButton>(R.id.fab).hide()
     }
 
     override fun onStart() {

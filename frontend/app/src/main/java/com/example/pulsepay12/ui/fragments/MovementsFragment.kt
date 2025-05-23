@@ -25,6 +25,7 @@ import com.example.pulsepay12.databinding.FragmentRegisterBinding
 import com.example.pulsepay12.model.Transaction
 import com.example.pulsepay12.model.TransactionJSON
 import com.example.pulsepay12.service.AuthUtils
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
 import org.json.JSONArray
@@ -95,6 +96,10 @@ class MovementsFragment: Fragment(), MovementsAdapter.OnTransactionListener{
             context?.let{ Volley.newRequestQueue(requireContext()).add(peticion)}
         }
         return binding.root
+    }
+    override fun onResume() {
+        super.onResume()
+        requireActivity().findViewById<FloatingActionButton>(R.id.fab).hide()
     }
 
     private fun instancias() {

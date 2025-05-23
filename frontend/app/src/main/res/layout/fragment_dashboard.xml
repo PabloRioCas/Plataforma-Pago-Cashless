@@ -40,18 +40,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <ImageButton
-        android:id="@+id/btnVinculacionPulsera"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginLeft="20dp"
-        android:src="@drawable/qr_scanner2"
-        app:layout_constraintBottom_toTopOf="@+id/imageView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/tvMensajeBienvenida"
-        app:layout_constraintTop_toTopOf="parent"
-        android:backgroundTint="@android:color/transparent"/>
-
     <TextView
         android:id="@+id/tvMensajeSaldo"
         android:layout_width="wrap_content"
@@ -81,6 +69,7 @@
         android:layout_marginTop="15dp"
         android:text="@string/sin_pulsera"
         android:textSize="15sp"
+        android:layout_marginBottom="15dp"
         app:layout_constraintEnd_toEndOf="@+id/tvMensajeSaldo"
         app:layout_constraintStart_toStartOf="@+id/tvMensajeSaldo"
         app:layout_constraintTop_toBottomOf="@+id/tvSaldoActual" />
@@ -93,7 +82,7 @@
         app:layout_constraintBottom_toTopOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvSaldoActual" />
+        app:layout_constraintTop_toBottomOf="@+id/tvPulsera" />
 
 
     <LinearLayout
@@ -102,7 +91,7 @@
         android:layout_height="wrap_content"
         android:layout_marginRight="10dp"
         android:orientation="horizontal"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="40dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginEnd="10dp"

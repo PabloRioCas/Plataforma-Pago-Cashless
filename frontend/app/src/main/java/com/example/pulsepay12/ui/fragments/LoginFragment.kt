@@ -30,7 +30,7 @@ import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
 import org.json.JSONObject
 
-class LoginFragment: Fragment(), CompoundButton.OnCheckedChangeListener {
+class LoginFragment: Fragment(), CompoundButton.OnCheckedChangeListener, OnClickListener {
 
     private lateinit var binding: FragmentLoginBinding
 
@@ -46,65 +46,23 @@ class LoginFragment: Fragment(), CompoundButton.OnCheckedChangeListener {
         binding = FragmentLoginBinding.inflate(inflater,container,false)
         binding.iconoMostrarPass.setOnCheckedChangeListener(this)
         binding.checkRecordarPass.setOnCheckedChangeListener(this)
+        binding.tvRegistrarse.setOnClickListener(this)
+        binding.botonLogueo.setOnClickListener { findNavController().navigate(R.id.action_loginFragment_to_dashboardFragment) }
+
         return binding.root
 
     }
 
+    override fun onResume() {
+        super.onResume()
+        requireActivity().findViewById<FloatingActionButton>(R.id.fab).hide()
+    }
+
     override fun onStart() {
         super.onStart()
-        binding.botonLogueo.setOnClickListener{
-
-            if (binding.etCorreo.text.toString().isEmpty() || binding.etCorreo.text.toString().isEmpty()) {
-                Snackbar.make(binding.root, "Completa todos los campos", Snackbar.LENGTH_SHORT).show()
-                return@setOnClickListener
-            }else{
-                binding.botonLogueo.text = getString(R.string.loading)
-                binding.botonLogueo.isEnabled = false
-                binding.progressBar.visibility = View.VISIBLE
-                login(binding.etCorreo.text.toString(),binding.etPass.text.toString())
-            }
-        }
-    }
-    fun login(email: String, password: String) {
-        val url = "http://10.0.2.2:8080/api/v1/auth/login"
-        val jsonBody = JSONObject().apply {
-            put("email", email)
-            put("password", password)
-        }
-        val loginRequest = JsonObjectRequest(
-            Request.Method.POST,
-            url,
-            jsonBody,
-            { response ->
-                    val token = response.getString("access_token")
-                    val prefs = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
-                    prefs.edit().putString("access_token", token).apply()
-                    findNavController().navigate(R.id.action_loginFragment_to_dashboardFragment)
-                        if (!binding.checkRecordarPass.isChecked) {
-                            binding.etCorreo.text?.clear()
-                            binding.etPass.text?.clear()
-                        }
-                        binding.botonLogueo.text = getString(R.string.btnLogin)
-                        binding.botonLogueo.isEnabled = true
-                        binding.progressBar.visibility = View.GONE
-            },
-            { error ->
-                if(error.networkResponse?.statusCode == 403){
-                    binding.botonLogueo.text = getString(R.string.btnLogin)
-                    binding.botonLogueo.isEnabled = true
-                    binding.progressBar.visibility = View.GONE
-                    Snackbar.make(binding.root, "Usuario o contraseña incorrecta", Snackbar.LENGTH_SHORT)
-                        //.setAction("¿Quieres registrarte?"){findNavController().navigate(R.id.action_loginFragment_to_registerFragment)}
-                }
-                if(error.networkResponse == null){
-                    Snackbar.make(binding.root, "Sin conexion a internet", Snackbar.LENGTH_SHORT).show()
-                }
-           }
-        )
-        requireContext().let { Volley.newRequestQueue(it).add(loginRequest) }
     }
 
-    override fun onCheckedChanged(buttonView: CompoundButton?, isChecked: Boolean) {
+   override fun onCheckedChanged(buttonView: CompoundButton?, isChecked: Boolean) {
         when(buttonView!!.id){
             binding.iconoMostrarPass.id->{
                 if (isChecked) {
@@ -129,11 +87,62 @@ class LoginFragment: Fragment(), CompoundButton.OnCheckedChangeListener {
                         remove("email")
                         apply()
                     }
-
                 }
             }
         }
     }
 
-
+    fun login(email: String, password: String) {
+        val url = "http://10.0.2.2:8080/api/v1/auth/login"
+        val jsonBody = JSONObject().apply {
+            put("email", email)
+            put("password", password)
+        }
+        val loginRequest = JsonObjectRequest(
+            Request.Method.POST,
+            url,
+            jsonBody,
+            { response ->
+                val token = response.getString("access_token")
+                val prefs = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+                prefs.edit().putString("access_token", token).apply()
+                findNavController().navigate(R.id.action_loginFragment_to_dashboardFragment)
+                if (!binding.checkRecordarPass.isChecked) {
+                    binding.etCorreo.text?.clear()
+                    binding.etPass.text?.clear()
+                }
+                binding.botonLogueo.text = getString(R.string.btnLogin)
+                binding.botonLogueo.isEnabled = true
+                binding.progressBar.visibility = View.GONE
+            },
+            { error ->
+                if(error.networkResponse?.statusCode == 403){
+                    binding.botonLogueo.text = getString(R.string.btnLogin)
+                    binding.botonLogueo.isEnabled = true
+                    binding.progressBar.visibility = View.GONE
+                    Snackbar.make(binding.root, "Usuario o contraseña incorrecta", Snackbar.LENGTH_SHORT)
+                        .setAction("¿Quieres recuperar la contraseña?"){findNavController().navigate(R.id.action_loginFragment_to_registerFragment)}.show()
+                }
+                if(error.networkResponse == null){
+                    Snackbar.make(binding.root, "Sin conexion a internet", Snackbar.LENGTH_SHORT).show()
+                }
+            }
+        )
+        requireContext().let { Volley.newRequestQueue(it).add(loginRequest) }
+    }
+    override fun onClick(v: View?) {
+        when(v!!.id){
+            R.id.tvRegistrarse->{findNavController().navigate(R.id.action_loginFragment_to_registerFragment)}
+            R.id.botonLogueo->{
+                if (binding.etCorreo.text.toString().isEmpty() || binding.etCorreo.text.toString().isEmpty()) {
+                    Snackbar.make(binding.root, "Completa todos los campos", Snackbar.LENGTH_SHORT).show()
+                }else{
+                    binding.botonLogueo.text = getString(R.string.loading)
+                    binding.botonLogueo.isEnabled = false
+                    binding.progressBar.visibility = View.VISIBLE
+                    login(binding.etCorreo.text.toString(),binding.etPass.text.toString())
+                }
+            }
+        }
+    }
 }
