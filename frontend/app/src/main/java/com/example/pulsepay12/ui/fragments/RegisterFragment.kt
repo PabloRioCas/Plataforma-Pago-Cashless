@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.OnClickListener
@@ -70,15 +71,17 @@ class RegisterFragment: Fragment(), OnClickListener {
     }
 
 
-    fun registrarUsuario(nombre: String, apellidos: String,phone: String, email: String, contrasenia: String) {
+    fun registrarUsuario(email: String,  contrasenia: String, nombre: String, apellidos: String, phone: String) {
         val url = "http://10.0.2.2:8080/api/v1/auth/register"
         val jsonBody = JSONObject().apply {
             put("email", email)
-            put("password",contrasenia)
+            put("password", contrasenia)
             put("name", nombre)
             put("lastname", apellidos)
-            put("phone",phone)
+            put("phone", phone)
         }
+
+        Log.v("jsonBody", jsonBody.toString())
 
         val request = object : JsonObjectRequest(
             Request.Method.POST, url, jsonBody,
