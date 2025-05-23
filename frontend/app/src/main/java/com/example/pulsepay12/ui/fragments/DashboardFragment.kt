@@ -1,8 +1,6 @@
 package com.example.pulsepay12.ui.fragments
 
 import android.content.Context
-import android.content.Intent
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -16,27 +14,26 @@ import androidx.navigation.fragment.findNavController
 import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
-import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.example.pulsepay12.MainActivity
 import com.example.pulsepay12.R
 import com.example.pulsepay12.databinding.FragmentDashboardBinding
-import com.example.pulsepay12.databinding.FragmentLoginBinding
 import com.example.pulsepay12.model.User
+import com.example.pulsepay12.model.UserJSON
 import com.example.pulsepay12.service.AuthUtils
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.zxing.integration.android.IntentIntegrator
+import com.google.gson.Gson
 import com.journeyapps.barcodescanner.ScanContract
 import com.journeyapps.barcodescanner.ScanIntentResult
 import com.journeyapps.barcodescanner.ScanOptions
 import org.json.JSONObject
-import kotlin.math.log2
 
 class DashboardFragment: Fragment(), OnClickListener {
 
     private lateinit var binding: FragmentDashboardBinding
     private  var user: User? = null
     private var jwt: String? =null
+    private lateinit var userJSON: UserJSON
 
 
     override fun onAttach(context: Context) {
@@ -53,6 +50,7 @@ class DashboardFragment: Fragment(), OnClickListener {
         savedInstanceState: Bundle?
     ): View? {
         jwt = AuthUtils.getJwtToken(requireContext())
+        userJSON = decodeJWT(jwt);
         binding = FragmentDashboardBinding.inflate(inflater,container,false)
         binding.btnMovimientos.setOnClickListener(this)
         binding.btnRecarga.setOnClickListener(this)
@@ -65,8 +63,6 @@ class DashboardFragment: Fragment(), OnClickListener {
         ) { result: ScanIntentResult ->
             result.contents?.let { qrResult ->
                 asignarPulsera(qrResult)
-                // Aquí tienes el código QR escaneado.
-                // Puedes mostrarlo, guardarlo o mandarlo al backend.
             }
         }
         (activity as? MainActivity)?.setFabClickListener {
@@ -88,7 +84,7 @@ class DashboardFragment: Fragment(), OnClickListener {
         super.onStart()
         binding.tvNombreDash.setText("${user?.mail ?: "invitado"}!")
 
-        }
+    }
 
     override fun onClick(v: View?) {
         when(v!!.id){
@@ -99,10 +95,10 @@ class DashboardFragment: Fragment(), OnClickListener {
                 findNavController().navigate(R.id.action_dashboardFragment_to_paymentFragment)
             }
             binding.btnMovimientos.id->{
-              findNavController().navigate(R.id.action_dashboardFragment_to_movementsFragment)
+                findNavController().navigate(R.id.action_dashboardFragment_to_movementsFragment)
             }
             binding.btnAjustes.id-> {
-              findNavController().navigate(R.id.action_dashboardFragment_to_settingsFragment)
+                findNavController().navigate(R.id.action_dashboardFragment_to_settingsFragment)
             }
 
         }
@@ -120,6 +116,7 @@ class DashboardFragment: Fragment(), OnClickListener {
                 val balance = response.optString("balance"?: "error", null)
                 if (!balance.equals("error") && balance != "null") {
                     binding.tvSaldoActual.text = balance + "€"
+                    binding.tvNombreDash.text = userJSON.name
                     binding.tvPulsera.text= null;
                 } else {
                     binding.tvPulsera.text = getString(R.string.sin_pulsera)
@@ -163,5 +160,13 @@ class DashboardFragment: Fragment(), OnClickListener {
 
         Volley.newRequestQueue(requireContext()).add(request)
     }
-}
 
+    fun decodeJWT(jwt: String?): UserJSON {
+        val gson = Gson()
+        val parts = jwt!!.split(".")
+        val payload = parts[1]
+        val padded = payload.padEnd((payload.length + 3) / 4 * 4, '=')
+        val json = String(android.util.Base64.decode(padded, android.util.Base64.DEFAULT))
+        return gson.fromJson(json, UserJSON::class.java)
+    }
+}

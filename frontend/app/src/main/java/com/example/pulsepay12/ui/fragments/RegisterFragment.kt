@@ -25,13 +25,6 @@ import org.json.JSONObject
 class RegisterFragment: Fragment(), OnClickListener {
 
     private lateinit var binding: FragmentRegisterBinding
-    private lateinit var auth: FirebaseAuth
-    private var jwt: String? =null
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        auth = FirebaseAuth.getInstance()
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -54,40 +47,39 @@ class RegisterFragment: Fragment(), OnClickListener {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
         }
-        binding.etName.addTextChangedListener(watcher)
-        binding.etLastName.addTextChangedListener(watcher)
         binding.etMail.addTextChangedListener(watcher)
-        binding.etPhone.addTextChangedListener(watcher)
         binding.etPass.addTextChangedListener(watcher)
         binding.etConfirmPass.addTextChangedListener(watcher)
+        binding.etName.addTextChangedListener(watcher)
+        binding.etLastName.addTextChangedListener(watcher)
+        binding.etPhone.addTextChangedListener(watcher)
         binding.btnRegistrar.setOnClickListener(this)
         return binding.root
     }
 
     override fun onStart() {
         super.onStart()
-        binding.btnRegistrar.setOnClickListener{
-            auth.createUserWithEmailAndPassword(
-                binding.etMail.text.toString(),
-                binding.etPass.text.toString()
-            ).addOnCompleteListener{
-                if(it.isSuccessful){
-                    findNavController().navigate(R.id.action_registerFragment_to_loginFragment)
-                }else{
-                    Snackbar.make(binding.root,"Error en el registro",Toast.LENGTH_SHORT).show()
-                }
-            }
+        binding.btnRegistrar.setOnClickListener{registrarUsuario(
+
+            binding.etMail.text.toString(),
+            binding.etPass.text.toString(),
+            binding.etName.text.toString(),
+            binding.etLastName.text.toString(),
+            binding.etPhone.text.toString())
         }
     }
-    fun registrarUsuario(nombre: String, apellidos: String,phone: String, email: String, contraseña: String) {
-        val url = "http://localhost:8080/api/v1/register"
+
+
+    fun registrarUsuario(nombre: String, apellidos: String,phone: String, email: String, contrasenia: String) {
+        val url = "http://10.0.2.2:8080/api/v1/auth/register"
         val jsonBody = JSONObject().apply {
+            put("email", email)
+            put("password",contrasenia)
             put("name", nombre)
             put("lastname", apellidos)
-            put("email", email)
             put("phone",phone)
-            put("password",contraseña)
         }
+
         val request = object : JsonObjectRequest(
             Request.Method.POST, url, jsonBody,
             { response ->
@@ -100,7 +92,6 @@ class RegisterFragment: Fragment(), OnClickListener {
             override fun getHeaders(): MutableMap<String, String> {
                 val headers = HashMap<String, String>()
                 // Añade el token si tu backend lo pide
-                headers["Authorization"] = "Bearer $jwt"
                 headers["Content-Type"] = "application/json"
                 return headers
             }
@@ -111,11 +102,13 @@ class RegisterFragment: Fragment(), OnClickListener {
     override fun onClick(v: View?) {
         when(v!!.id){
             R.id.btnRegistrar-> { registrarUsuario(
+
+                binding.etMail.text.toString(),
+                binding.etPass.text.toString(),
                 binding.etName.text.toString(),
                 binding.etLastName.text.toString(),
-                binding.etPhone.text.toString(),
-                binding.etMail.text.toString(),
-                binding.etPass.text.toString())
+                binding.etPhone.text.toString())
+
 
             }
         }

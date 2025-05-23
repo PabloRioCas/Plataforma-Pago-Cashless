@@ -1,34 +1,25 @@
 package com.example.pulsepay12.ui.fragments
 
 import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.text.InputType
-import android.text.method.HideReturnsTransformationMethod
-import android.text.method.PasswordTransformationMethod
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.OnClickListener
 import android.view.ViewGroup
 import android.widget.CompoundButton
-import android.widget.RadioGroup.OnCheckedChangeListener
-import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.android.volley.Request
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
-import com.example.pulsepay12.MainActivity
 import com.example.pulsepay12.R
 import com.example.pulsepay12.databinding.FragmentLoginBinding
-import com.example.pulsepay12.model.User
-import com.example.pulsepay12.service.LoginRequest
-import com.example.pulsepay12.service.RetrofitClient
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.coroutines.launch
 import org.json.JSONObject
+
 
 class LoginFragment: Fragment(), CompoundButton.OnCheckedChangeListener, OnClickListener {
 
@@ -47,7 +38,7 @@ class LoginFragment: Fragment(), CompoundButton.OnCheckedChangeListener, OnClick
         binding.iconoMostrarPass.setOnCheckedChangeListener(this)
         binding.checkRecordarPass.setOnCheckedChangeListener(this)
         binding.tvRegistrarse.setOnClickListener(this)
-        binding.botonLogueo.setOnClickListener { findNavController().navigate(R.id.action_loginFragment_to_dashboardFragment) }
+        binding.botonLogueo.setOnClickListener(this)
 
         return binding.root
 
@@ -62,14 +53,14 @@ class LoginFragment: Fragment(), CompoundButton.OnCheckedChangeListener, OnClick
         super.onStart()
     }
 
-   override fun onCheckedChanged(buttonView: CompoundButton?, isChecked: Boolean) {
+    override fun onCheckedChanged(buttonView: CompoundButton?, isChecked: Boolean) {
         when(buttonView!!.id){
             binding.iconoMostrarPass.id->{
                 if (isChecked) {
                     // Mostrar contraseña
                     binding.etPass.inputType =  InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
                 }else {
-                // Ocultar contraseña
+                    // Ocultar contraseña
                     binding.etPass.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
                 }
                 // Cambia el icono si tienes
@@ -103,9 +94,17 @@ class LoginFragment: Fragment(), CompoundButton.OnCheckedChangeListener, OnClick
             url,
             jsonBody,
             { response ->
-                val token = response.getString("access_token")
+
+                // Accede a SharedPreferences
                 val prefs = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+
+                // Limpiar el token anterior
+                prefs.edit().remove("access_token").apply() // Elimina el token anterior
+                val token = response.getString("access_token")
+
+                // Guardar el nuevo token
                 prefs.edit().putString("access_token", token).apply()
+
                 findNavController().navigate(R.id.action_loginFragment_to_dashboardFragment)
                 if (!binding.checkRecordarPass.isChecked) {
                     binding.etCorreo.text?.clear()
@@ -120,8 +119,7 @@ class LoginFragment: Fragment(), CompoundButton.OnCheckedChangeListener, OnClick
                     binding.botonLogueo.text = getString(R.string.btnLogin)
                     binding.botonLogueo.isEnabled = true
                     binding.progressBar.visibility = View.GONE
-                    Snackbar.make(binding.root, "Usuario o contraseña incorrecta", Snackbar.LENGTH_SHORT)
-                        .setAction("¿Quieres recuperar la contraseña?"){findNavController().navigate(R.id.action_loginFragment_to_registerFragment)}.show()
+                    Snackbar.make(binding.root, "Usuario o contraseña incorrecta", Snackbar.LENGTH_SHORT).show()
                 }
                 if(error.networkResponse == null){
                     Snackbar.make(binding.root, "Sin conexion a internet", Snackbar.LENGTH_SHORT).show()

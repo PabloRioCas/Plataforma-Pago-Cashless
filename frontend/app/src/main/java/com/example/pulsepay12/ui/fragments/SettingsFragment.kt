@@ -26,8 +26,6 @@ import com.example.pulsepay12.model.TransactionJSON
 import com.example.pulsepay12.model.User
 import com.example.pulsepay12.model.UserJSON
 import com.example.pulsepay12.service.AuthUtils
-import com.example.pulsepay12.service.RetrofitClient.instance
-import com.example.pulsepay12.service.UpdateUserRequest
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
