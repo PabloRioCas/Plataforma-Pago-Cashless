@@ -1,0 +1,37 @@
+<resources>
+    <string name="app_name">PulsePay1.2</string>
+    <string name="action_Dashboard">Inicio</string>
+    <string name="action_settings">Ajustes</string>
+    <string name="action_recharge">Recargar</string>
+    <string name="action_Movements">Movimientos</string>
+    <string name="loading">Cargando...</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+    <string name="exitApp">Cerrar Sesión</string>
+    <string name="etMailLogin">Escribe tu correo electrónico</string>
+    <string name="etPassLogin">Escribe tu contraseña</string>
+    <string name="checkBoxPassLogin">Recordar contraseña</string>
+    <string name="btnLogin">Iniciar sesión</string>
+    <string name="btnRecargar">Recargar</string>
+    <string name="sin_pulsera">Sin pulsera asignada</string>
+    <string name="pulsera_asignada">Tu pulsera asignada es: %1$s</string>
+<!--    <string name=""></string>-->
+<!--    <string name=""></string>-->
+<!--    <string name=""></string>-->
+<!--    <string name=""></string>-->
+    <string-array name="gastos_festival">
+        <item>Agua</item>
+        <item>Cerveza</item>
+        <item>Cubata</item>
+        <item>Comida</item>
+        <item>Merchandising</item>
+        <item>Taquilla/Guardarropa</item>
+    </string-array>
+
+
+
+
+</resources>

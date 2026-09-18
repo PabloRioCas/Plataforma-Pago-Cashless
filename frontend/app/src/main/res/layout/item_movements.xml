@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_margin="10dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    app:cardCornerRadius="50dp"
+    android:elevation="20dp"
+    android:gravity="center">
+
+    <LinearLayout
+        android:id="@+id/linearCardRecyclerMovements"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:orientation="vertical"
+        android:padding="15dp"
+        android:paddingStart="50dp"
+        android:background="#3700CC3D">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="20dp">
+
+            <TextView
+                android:id="@+id/tvRecyclerTransaction"
+                android:layout_width="0dp"
+                android:layout_weight="0.25"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:text="Consumo"/>
+
+            <TextView
+                android:id="@+id/tvRecyclerImporte"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.25"
+                android:gravity="center"
+                android:text="Importe"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvRecyclerSaldo"
+                android:layout_width="0dp"
+                android:layout_weight="0.25"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:text="Saldo"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:layout_marginTop="10dp">
+
+            <TextView
+                android:id="@+id/tvrecyclerFecha"
+                android:layout_width="0dp"
+                android:layout_weight="0.25"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:inputType="date"/>
+
+            <TextView
+                android:id="@+id/tvrecyclerImporteEuros"
+                android:layout_width="0dp"
+                android:layout_weight="0.25"
+                android:layout_height="wrap_content"
+                android:text="+50€"
+                android:textColor="#008A2A"
+                android:gravity="center"/>
+
+            <TextView
+                android:id="@+id/tvrecyclerSaldoEuros"
+                android:layout_width="0dp"
+                android:layout_weight="0.25"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="100€"/>
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+
+
+</androidx.cardview.widget.CardView>

@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    android:padding="12dp">
+
+
+    <EditText
+        android:id="@+id/etCorreo"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:drawableStart="@drawable/prueba"
+        android:gravity="center"
+        android:hint="@string/etMailLogin"
+        android:inputType="textEmailAddress"
+        app:layout_constraintEnd_toEndOf="@+id/iVLogoPrincipal"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/iVLogoPrincipal"
+        app:layout_constraintTop_toTopOf="@+id/guideline2" />
+
+    <EditText
+        android:layout_marginTop="12dp"
+        android:id="@+id/etPass"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:drawableStart="@drawable/prueba2"
+        android:gravity="center"
+        android:hint="@string/etPassLogin"
+        android:inputType="textPassword"
+        app:layout_constraintEnd_toEndOf="@+id/iVLogoPrincipal"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/iVLogoPrincipal"
+        app:layout_constraintTop_toBottomOf="@+id/etCorreo" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        style="@style/Widget.AppCompat.ProgressBar"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <TextView
+        android:id="@+id/tvRegistrarse"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="¿Quieres registrarte?"
+        android:textColor="#001DE7"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/checkRecordarPass"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etPass"/>
+
+    <CheckBox
+        android:id="@+id/checkRecordarPass"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/checkBoxPassLogin"
+        android:textSize="10sp"
+        app:layout_constraintEnd_toEndOf="@+id/etPass"
+        app:layout_constraintTop_toBottomOf="@+id/etPass" />
+
+
+    <ImageView
+        android:id="@+id/iVLogoPrincipal"
+        android:layout_width="300dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="16dp"
+        android:src="@drawable/logo_pulsepay_horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/guideline2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/iVBanner"
+        android:layout_width="0dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="16dp"
+        android:src="@drawable/banner_evento"
+        app:layout_constraintBottom_toTopOf="@+id/iVLogoPrincipal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ToggleButton
+        android:id="@+id/iconoMostrarPass"
+        android:layout_width="40dp"
+        android:layout_height="20dp"
+        android:textOn=""
+        android:textOff=""
+        android:background="@drawable/background_toggle_mostrar_pass"
+        android:src="@drawable/ojomostrar_pass"
+        app:layout_constraintBottom_toBottomOf="@+id/etPass"
+        app:layout_constraintStart_toEndOf="@+id/etPass"
+        app:layout_constraintTop_toTopOf="@+id/etPass" />
+
+
+    <Button
+        android:id="@+id/botonLogueo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/btnLogin"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/etPass"
+        app:layout_constraintStart_toStartOf="@+id/etPass"
+        app:layout_constraintTop_toBottomOf="@+id/checkRecordarPass"/>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.5" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
