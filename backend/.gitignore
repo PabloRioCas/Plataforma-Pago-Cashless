@@ -31,3 +31,7 @@ build/
 
 ### VS Code ###
 .vscode/
+
+# Forzar el bloqueo de las credenciales del backend
+backend/.env
+.env
